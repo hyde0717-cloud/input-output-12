@@ -1,0 +1,908 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>窮遊也要飛！｜旅行基金計算機</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 22px;
+            background-color: #fff4dc;
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: #55463f;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* ===== 上方標題 ===== */
+        .header {
+            background-color: #ff8875;
+            border-radius: 22px;
+            padding: 20px 30px;
+            margin-bottom: 22px;
+        }
+
+        .brand {
+            color: #fff7ef;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: white;
+            font-size: 30px;
+            margin: 8px 0;
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 14px;
+        }
+
+        /* ===== 左右雙欄 ===== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.85fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* ===== 左側輸入區 ===== */
+        .container-input {
+            background-color: white;
+            padding: 25px;
+            border-radius: 22px;
+            box-shadow: 5px 6px 0 #ecd9bd;
+        }
+
+        h2 {
+            font-size: 21px;
+            margin: 0 0 8px;
+        }
+
+        .note {
+            color: #ab8476;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .group-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 24px 0 15px;
+            color: #bd7563;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .group-title::after {
+            content: "";
+            flex: 1;
+            border-top: 1px dashed #eccbbb;
+        }
+
+        .basic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .expense-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .expense-card {
+            background-color: #fff7f1;
+            padding: 13px;
+            border: 1px solid #f2ddd0;
+            border-radius: 14px;
+            transition: 0.2s;
+        }
+
+        .expense-card:hover {
+            transform: translateY(-2px);
+            border-color: #ff8875;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            min-width: 0;
+            padding: 12px;
+            border: 1px solid #eed7c9;
+            border-radius: 10px;
+            background-color: #fffdfa;
+            color: #55463f;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #ff8875;
+            box-shadow: 0 0 0 3px #ffe4d9;
+        }
+
+        /* ===== 計算按鈕 ===== */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 24px;
+            border: none;
+            border-radius: 13px;
+            background-color: #ff8875;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #f57261;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px #f6d1c6;
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* ===== 飛機跑道 ===== */
+        .sky {
+            position: relative;
+            height: 120px;
+            margin-top: 20px;
+            background: linear-gradient(
+                180deg,
+                #dff3ff 0%,
+                #eff9f4 100%
+            );
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .sky::after {
+            content: "";
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 100%;
+            border-bottom: 3px dashed #abc6bd;
+        }
+
+        .sky-text {
+            position: absolute;
+            top: 13px;
+            right: 16px;
+            font-size: 11px;
+            color: #699d99;
+            font-weight: bold;
+        }
+
+        .cloud {
+            position: absolute;
+            font-size: 23px;
+            opacity: 0.6;
+        }
+
+        .cloud-one {
+            top: 13px;
+            left: 37%;
+        }
+
+        .cloud-two {
+            top: 44px;
+            right: 16%;
+        }
+
+        /* ===== Q版飛機：機頭朝右 ===== */
+        .runway-plane {
+            position: absolute;
+            bottom: 10px;
+            left: 12px;
+            width: 125px;
+            height: auto;
+            z-index: 2;
+
+            /* 原圖機頭朝左，因此水平翻轉 */
+            transform: scaleX(-1);
+        }
+
+        /* ===== 正常起飛 ===== */
+        .runway-plane.fly {
+            animation: takeoff 2s ease-in forwards;
+        }
+
+        @keyframes takeoff {
+            0% {
+                transform:
+                    translate(0, 0)
+                    scaleX(-1)
+                    rotate(0deg);
+            }
+
+            30% {
+                transform:
+                    translate(
+                        calc(var(--fly-distance) * 0.3),
+                        0
+                    )
+                    scaleX(-1)
+                    rotate(0deg);
+            }
+
+            60% {
+                transform:
+                    translate(
+                        calc(var(--fly-distance) * 0.6),
+                        -20px
+                    )
+                    scaleX(-1)
+                    rotate(10deg);
+            }
+
+            100% {
+                transform:
+                    translate(
+                        var(--fly-distance),
+                        -105px
+                    )
+                    scaleX(-1)
+                    rotate(20deg);
+            }
+        }
+
+        /* ===== 超支搖晃 ===== */
+        .runway-plane.shake {
+            animation: shake 0.5s ease-in-out 2;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0) scaleX(-1);
+            }
+
+            25% {
+                transform:
+                    translateX(-8px)
+                    scaleX(-1)
+                    rotate(-5deg);
+            }
+
+            75% {
+                transform:
+                    translateX(8px)
+                    scaleX(-1)
+                    rotate(5deg);
+            }
+        }
+
+        /* ===== 右側登機證 ===== */
+        .container-output {
+            background-color: #dcece5;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 5px 6px 0 #c8d8ce;
+        }
+
+        .ticket-header {
+            padding: 19px;
+            background-color: #438e81;
+            color: white;
+        }
+
+        .ticket-header h2 {
+            margin-top: 10px;
+            font-size: 19px;
+        }
+
+        .ticket-body {
+            padding: 21px;
+        }
+
+        .destination {
+            color: #438e81;
+            font-size: 13px;
+            margin-bottom: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .result-label {
+            color: #719087;
+            font-size: 12px;
+        }
+
+        #result {
+            color: #32786b;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 12px 0;
+            overflow-wrap: anywhere;
+        }
+
+        #message {
+            background-color: white;
+            padding: 13px;
+            border-radius: 11px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ===== 金額摘要 ===== */
+        .summary {
+            background-color: #f6fbf8;
+            padding: 14px;
+            margin-top: 18px;
+            border-radius: 12px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 9px 0;
+            border-bottom: 1px dashed #d5e4dc;
+            font-size: 13px;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row strong {
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        /* ===== 預算進度條 ===== */
+        .progress-area {
+            margin-top: 22px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .progress-track {
+            height: 13px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ffb58e;
+            border-radius: 20px;
+            transition: width 1s ease;
+        }
+
+        /* ===== 計算公式 ===== */
+        .formula-box {
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #ffffffa8;
+            border-radius: 12px;
+        }
+
+        #formula {
+            font-size: 12px;
+            line-height: 1.9;
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+        }
+
+        .ticket-footer {
+            text-align: center;
+            background-color: #fffdf6;
+            border-top: 2px dashed #a6c7bb;
+            padding: 15px;
+            color: #438e81;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== 平板版 ===== */
+        @media (max-width: 850px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== 手機版 ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: 14px;
+            }
+
+            .header {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .container-input {
+                padding: 20px;
+            }
+
+            .basic-grid,
+            .expense-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ticket-body {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .basic-grid,
+            .expense-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .runway-plane.fly,
+            .runway-plane.shake {
+                animation: none;
+            }
+
+            .progress-bar {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ===== 上方標題 ===== -->
+    <header class="header">
+
+        <div class="brand">
+            ✈ GO! GO! TRAVEL CLUB
+        </div>
+
+        <h1>窮遊也要飛！</h1>
+
+        <div class="subtitle">
+            預算算得好，出國沒煩惱 ♡
+        </div>
+
+    </header>
+
+    <main class="main-layout">
+
+        <!-- ===== 1. 輸入區 ===== -->
+        <section class="container-input">
+
+            <h2>🧳 我的旅費行李箱</h2>
+
+            <p class="note">
+                把旅行開銷裝進行李箱，
+                看看錢包能不能順利起飛！
+            </p>
+
+            <form id="travelForm">
+
+                <div class="group-title">
+                    01 / 我的旅行計畫
+                </div>
+
+                <div class="basic-grid">
+
+                    <div>
+                        <label for="destination">
+                            🌏 旅行目的地
+                        </label>
+
+                        <input
+                            type="text"
+                            id="destination"
+                            placeholder="例如：日本東京"
+                            maxlength="30"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="budget">
+                            💰 旅行總預算
+                        </label>
+
+                        <input
+                            type="number"
+                            id="budget"
+                            min="0"
+                            step="any"
+                            placeholder="50000"
+                            required>
+                    </div>
+
+                </div>
+
+                <div class="group-title">
+                    02 / 旅行開銷
+                </div>
+
+                <div class="expense-grid">
+
+                    <div class="expense-card">
+                        <label for="flight">✈️ 機票</label>
+                        <input type="number" id="flight"
+                               min="0" step="any"
+                               placeholder="12000" required>
+                    </div>
+
+                    <div class="expense-card">
+                        <label for="hotel">🏨 住宿</label>
+                        <input type="number" id="hotel"
+                               min="0" step="any"
+                               placeholder="15000" required>
+                    </div>
+
+                    <div class="expense-card">
+                        <label for="food">🍜 餐飲</label>
+                        <input type="number" id="food"
+                               min="0" step="any"
+                               placeholder="8000" required>
+                    </div>
+
+                    <div class="expense-card">
+                        <label for="traffic">🚇 當地交通</label>
+                        <input type="number" id="traffic"
+                               min="0" step="any"
+                               placeholder="3000" required>
+                    </div>
+
+                    <div class="expense-card">
+                        <label for="tickets">🎟️ 門票娛樂</label>
+                        <input type="number" id="tickets"
+                               min="0" step="any"
+                               placeholder="2000" required>
+                    </div>
+
+                    <div class="expense-card">
+                        <label for="shopping">🛍️ 購物伴手禮</label>
+                        <input type="number" id="shopping"
+                               min="0" step="any"
+                               placeholder="2000" required>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    ✈️ 檢查錢包，準備起飛！
+                </button>
+
+            </form>
+
+            <!-- ===== Q版飛機跑道 ===== -->
+            <div class="sky" id="sky">
+
+                <span class="cloud cloud-one">☁️</span>
+                <span class="cloud cloud-two">☁️</span>
+
+                <div class="sky-text" id="skyText">
+                    READY TO FLY...
+                </div>
+
+                <img
+                    src="images/airplane.png"
+                    class="runway-plane"
+                    id="plane"
+                    alt="可愛Q版飛機">
+
+            </div>
+
+        </section>
+
+        <!-- ===== 2. 結果區 ===== -->
+        <section class="container-output" aria-live="polite">
+
+            <div class="ticket-header">
+
+                <small>
+                    BOARDING PASS / TRAVEL FUND
+                </small>
+
+                <h2>🎫 我的旅費登機證</h2>
+
+            </div>
+
+            <div class="ticket-body">
+
+                <div class="destination" id="tripName">
+                    DESTINATION / 尚未設定
+                </div>
+
+                <div class="result-label">
+                    REMAINING BUDGET / 剩餘預算
+                </div>
+
+                <div id="result">
+                    NT$ —
+                </div>
+
+                <div id="message">
+                    🧳 旅行錢包等你來開箱！
+                </div>
+
+                <div class="summary">
+
+                    <div class="summary-row">
+                        <span>💰 總預算</span>
+                        <strong id="totalBudget">NT$ —</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>💸 已規劃支出</span>
+                        <strong id="totalSpent">NT$ —</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>🎁 剩餘可用</span>
+                        <strong id="totalLeft">NT$ —</strong>
+                    </div>
+
+                </div>
+
+                <div class="progress-area">
+
+                    <div class="progress-info">
+                        <span>旅費使用進度</span>
+                        <strong id="percent">0%</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+
+                </div>
+
+                <div class="formula-box">
+
+                    <div class="result-label">
+                        計算公式
+                    </div>
+
+                    <div id="formula">
+                        總預算 − 所有旅行開銷
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="ticket-footer">
+                ✦ HAVE A NICE TRIP ✦
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+    // ===== 取得表單 =====
+    let form = document.getElementById("travelForm");
+
+    // 記錄數字動畫
+    let numberAnimation;
+
+    // ===== 表單送出 =====
+    form.addEventListener("submit", function(event) {
+
+        // 防止網頁重新整理
+        event.preventDefault();
+
+        // 取得目的地
+        let destination = document.getElementById("destination").value.trim();
+
+        // 取得費用
+        let budget = Number(document.getElementById("budget").value);
+        let flight = Number(document.getElementById("flight").value);
+        let hotel = Number(document.getElementById("hotel").value);
+        let food = Number(document.getElementById("food").value);
+        let traffic = Number(document.getElementById("traffic").value);
+        let tickets = Number(document.getElementById("tickets").value);
+        let shopping = Number(document.getElementById("shopping").value);
+
+        // ===== 檢查金額 =====
+        let numbers = [
+            budget, flight, hotel, food,
+            traffic, tickets, shopping
+        ];
+
+        if (!destination || numbers.some(n => !Number.isFinite(n) || n < 0)) {
+            alert("請輸入正確的旅行資料！");
+            return;
+        }
+
+        // ===== 計算金額 =====
+        let spent = flight + hotel + food +
+                    traffic + tickets + shopping;
+
+        let remaining = budget - spent;
+
+        if (!Number.isFinite(spent) || !Number.isFinite(remaining)) {
+            alert("金額太大，請重新輸入！");
+            return;
+        }
+
+        // ===== 百分比 =====
+        let percent = budget === 0
+            ? (spent === 0 ? 0 : 100)
+            : spent / budget * 100;
+
+        // 千分位顯示
+        function money(n) {
+            return "NT$ " + Math.round(n).toLocaleString("zh-TW");
+        }
+
+        // ===== 更新登機證 =====
+        document.getElementById("tripName").innerText =
+            "DESTINATION / " + destination;
+
+        document.getElementById("totalBudget").innerText =
+            money(budget);
+
+        document.getElementById("totalSpent").innerText =
+            money(spent);
+
+        document.getElementById("totalLeft").innerText =
+            money(remaining);
+
+        // ===== 預算進度條 =====
+        let bar = document.getElementById("progressBar");
+
+        bar.style.width = "0%";
+        void bar.offsetWidth;
+
+        bar.style.width =
+            Math.max(0, Math.min(100, percent)) + "%";
+
+        bar.style.backgroundColor =
+            remaining < 0 ? "#ef6666" : "#ffb58e";
+
+        document.getElementById("percent").innerText =
+            percent.toFixed(1) + "%";
+
+        // ===== 計算公式 =====
+        document.getElementById("formula").innerText =
+            money(budget) + " − (" +
+            [flight, hotel, food, traffic, tickets, shopping]
+                .map(n => n.toLocaleString("zh-TW"))
+                .join(" + ") +
+            ")\n= " + money(remaining);
+
+        // ===== 錢包心情 =====
+        let message = document.getElementById("message");
+
+        if (remaining > 10000) {
+            message.innerText =
+                "🎉 豪華起飛！還有錢買伴手禮！";
+        }
+        else if (remaining > 0) {
+            message.innerText =
+                "😎 可以起飛！但購物記得克制～";
+        }
+        else if (remaining === 0) {
+            message.innerText =
+                "😳 剛好花光！記得留緊急預備金！";
+        }
+        else {
+            message.innerText =
+                "🚨 機長！旅費不夠啦！";
+        }
+
+        // ===== 飛機動畫 =====
+        let plane = document.getElementById("plane");
+        let sky = document.getElementById("sky");
+        let skyText = document.getElementById("skyText");
+
+        // 清除舊動畫
+        plane.classList.remove("fly", "shake");
+
+        // 計算飛行距離
+        let flyDistance = sky.clientWidth + 150;
+
+        plane.style.setProperty(
+            "--fly-distance",
+            flyDistance + "px"
+        );
+
+        // 強制更新動畫狀態
+        void plane.offsetWidth;
+
+        if (remaining >= 0) {
+
+            // 預算足夠：飛機往右起飛
+            plane.classList.add("fly");
+
+            skyText.innerText =
+                "HAVE A NICE TRIP ♡";
+
+        } else {
+
+            // 預算不足：搖晃
+            plane.classList.add("shake");
+
+            skyText.innerText =
+                "OH NO! BUDGET ALERT!";
+
+        }
+
+        // ===== 數字跳動動畫 =====
+        let result = document.getElementById("result");
+
+        cancelAnimationFrame(numberAnimation);
+
+        let startTime = null;
+        let duration = 1000;
+
+        function animateNumber(time) {
+
+            if (startTime === null) {
+                startTime = time;
+            }
+
+            let progress = Math.min(
+                (time - startTime) / duration,
+                1
+            );
+
+            let ease = 1 - Math.pow(1 - progress, 3);
+
+            let current = Math.round(remaining * ease);
+
+            result.innerText = money(current);
+
+            if (progress < 1) {
+                numberAnimation =
+                    requestAnimationFrame(animateNumber);
+            }
+        }
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            result.innerText = money(remaining);
+        } else {
+            numberAnimation = requestAnimationFrame(animateNumber);
+        }
+
+    });
+</script>
+
+</body>
+</html>
