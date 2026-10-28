@@ -1,0 +1,1221 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>未來資產養成所｜Money Grow Club</title>
+
+<style>
+/* ===== 基本設定 ===== */
+:root {
+    --cream: #fff7db;
+    --paper: #ffffff;
+    --blue: #bbdde9;
+    --orange: #f7b96d;
+    --yellow: #ffcf64;
+    --brown: #43372e;
+    --green: #408273;
+    --muted: #78695a;
+    --border: #e7d8c3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 24px 18px;
+    background: var(--cream);
+    color: var(--brown);
+    font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* ===== 品牌導覽 ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.brand-tag {
+    border: 2px solid var(--brown);
+    border-radius: 30px;
+    background: var(--yellow);
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* ===== 標題 ===== */
+.header {
+    position: relative;
+    margin-bottom: 26px;
+}
+
+.eyebrow {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #b87a4a;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: clamp(27px, 4vw, 42px);
+    line-height: 1.45;
+    margin: 10px 0;
+    overflow-wrap: anywhere;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ===== 左右版面 ===== */
+.main-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.container-input,
+.container-output {
+    min-width: 0;
+    border: 2px solid var(--brown);
+    border-radius: 22px;
+    padding: 26px;
+}
+
+.container-input {
+    background: var(--paper);
+    box-shadow: 6px 6px 0 #e6c9a6;
+}
+
+.container-output {
+    background: var(--blue);
+    box-shadow: 6px 6px 0 #91b7c5;
+}
+
+/* ===== 標題區塊 ===== */
+.section-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.step {
+    font-size: 12px;
+    font-weight: bold;
+    color: #b87a4a;
+    letter-spacing: 1px;
+}
+
+h2 {
+    font-size: 21px;
+    line-height: 1.5;
+    margin: 8px 0;
+}
+
+.mascot {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.hint {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+/* ===== 表單 ===== */
+.field {
+    min-width: 0;
+    margin-bottom: 19px;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 9px;
+    line-height: 1.5;
+}
+
+input, select {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    padding: 10px 13px;
+    border: 2px solid #ded4c9;
+    border-radius: 11px;
+    background: #fffdf7;
+    color: var(--brown);
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px #ffeed5;
+}
+
+.field-help {
+    display: block;
+    margin-top: 6px;
+    color: #928375;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* ===== 快速情境 ===== */
+.quick-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 11px;
+}
+
+.quick-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 23px;
+}
+
+.quick-btn {
+    border: 1px solid #e4cfaa;
+    background: #fff8e8;
+    color: var(--brown);
+    border-radius: 30px;
+    padding: 9px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+.quick-btn:hover,
+.quick-btn.active {
+    background: var(--yellow);
+    border-color: var(--brown);
+}
+
+/* ===== 按鈕 ===== */
+.submit-btn {
+    width: 100%;
+    min-height: 52px;
+    padding: 13px;
+    border: 2px solid var(--brown);
+    border-radius: 13px;
+    background: var(--orange);
+    color: var(--brown);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--brown);
+    transition: 0.2s;
+}
+
+.submit-btn:hover {
+    background: var(--yellow);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--brown);
+}
+
+.submit-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--brown);
+}
+
+.reset-btn {
+    display: block;
+    margin: 19px auto 0;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* ===== 結果主卡片 ===== */
+.output-title {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.result-main {
+    background: #ffffffb8;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    min-width: 0;
+}
+
+.result-label {
+    color: #5b7578;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#result {
+    margin: 12px 0;
+    font-size: clamp(23px, 3.2vw, 34px);
+    line-height: 1.4;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+
+#message {
+    color: #56716b;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* ===== 統計卡片 ===== */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    min-width: 0;
+    background: #ffffffba;
+    border-radius: 13px;
+    padding: 14px;
+}
+
+.stat-card span {
+    display: block;
+    color: #62777a;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.stat-card strong {
+    display: block;
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===== 目標進度 ===== */
+.goal-card,
+.chart-card,
+.formula-card,
+.scenario-card {
+    min-width: 0;
+    background: #ffffffd9;
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 14px;
+}
+
+.card-heading {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.6;
+    margin: 0 0 13px;
+}
+
+.goal-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.goal-info strong {
+    overflow-wrap: anywhere;
+    text-align: right;
+}
+
+.progress-track {
+    width: 100%;
+    height: 15px;
+    background: #eee8d9;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--orange);
+    border-radius: 30px;
+    transition: width 0.8s ease;
+}
+
+#goalMessage {
+    margin: 12px 0 0;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #61756b;
+}
+
+/* ===== 資金組成 ===== */
+.composition-track {
+    display: flex;
+    width: 100%;
+    height: 17px;
+    overflow: hidden;
+    background: #e8e5db;
+    border-radius: 30px;
+}
+
+.principal-fill {
+    width: 0%;
+    background: #f4b76d;
+    transition: width 0.8s;
+}
+
+.gain-fill {
+    width: 0%;
+    background: #78a9a4;
+    transition: width 0.8s;
+}
+
+.legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 13px;
+}
+
+.legend-item {
+    font-size: 11px;
+    line-height: 1.6;
+    min-width: 0;
+}
+
+.legend-item strong {
+    display: block;
+    font-size: 13px;
+    margin-top: 4px;
+    overflow-wrap: anywhere;
+}
+
+/* ===== 年度成長圖 ===== */
+.chart {
+    height: 180px;
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    padding-top: 15px;
+}
+
+.chart-column {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.chart-value {
+    font-size: 10px;
+    color: #56716b;
+    white-space: nowrap;
+}
+
+.chart-bar-area {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 125px;
+}
+
+.chart-bar {
+    width: 75%;
+    max-width: 42px;
+    height: 0;
+    background: #f7b96d;
+    border-radius: 7px 7px 0 0;
+    transition: height 0.8s ease;
+}
+
+.chart-year {
+    font-size: 11px;
+    color: #655b51;
+    white-space: nowrap;
+}
+
+/* ===== 公式 ===== */
+#formula {
+    font-size: 13px;
+    line-height: 1.9;
+    color: #5d5b50;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* ===== 情境比較 ===== */
+.scenario-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #d9ded9;
+    font-size: 13px;
+}
+
+.scenario-row:last-child {
+    border-bottom: none;
+}
+
+.scenario-row strong {
+    overflow-wrap: anywhere;
+    text-align: right;
+}
+
+/* ===== 頁尾 ===== */
+.footer {
+    text-align: center;
+    margin-top: 35px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+/* ===== 平板 ===== */
+@media (max-width: 850px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        max-width: 650px;
+    }
+}
+
+/* ===== 手機 ===== */
+@media (max-width: 480px) {
+    body {
+        padding: 15px 12px;
+    }
+
+    .navbar {
+        margin-bottom: 25px;
+    }
+
+    .logo {
+        font-size: 13px;
+    }
+
+    .brand-tag {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+
+    .header {
+        margin-bottom: 22px;
+    }
+
+    .container-input,
+    .container-output {
+        padding: 18px;
+        border-radius: 18px;
+        box-shadow: 4px 4px 0 #d7c6ae;
+    }
+
+    .field-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .stat-card {
+        padding: 11px;
+    }
+
+    .result-main {
+        padding: 15px;
+    }
+
+    .goal-card,
+    .chart-card,
+    .formula-card,
+    .scenario-card {
+        padding: 14px;
+    }
+
+    .chart {
+        gap: 5px;
+    }
+
+    .chart-value {
+        font-size: 9px;
+    }
+}
+
+/* ===== 超小螢幕 ===== */
+@media (max-width: 340px) {
+    .stats,
+    .legend {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-value {
+        display: none;
+    }
+}
+
+/* 尊重手機或電腦的減少動畫設定 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 網站品牌 -->
+    <nav class="navbar">
+        <div class="logo">✳ MONEY GROW CLUB</div>
+        <div class="brand-tag">VOL. 01 🌱</div>
+    </nav>
+
+    <!-- 標題 -->
+    <header class="header">
+        <div class="eyebrow">YOUR MONEY, YOUR FUTURE</div>
+        <h1>未來資產養成所🌱</h1>
+        <p class="subtitle">
+            每個月存一點，看看未來能長多大 ♡<br>
+            從今天開始，種下你的財務小目標。
+        </p>
+    </header>
+
+    <!-- 左右版面 -->
+    <main class="main-layout">
+
+        <!-- 1. container-input -->
+        <section class="container-input">
+
+            <div class="section-top">
+                <div>
+                    <div class="step">STEP 01 / MY MONEY</div>
+                    <h2>我的投資小金庫</h2>
+                </div>
+                <span class="mascot">🪴</span>
+            </div>
+
+            <p class="hint">
+                填寫你的計畫，看看未來的錢會長多大。
+            </p>
+
+            <form id="moneyForm">
+
+                <div class="field">
+                    <label for="money">💰 起始本金（NT$）</label>
+                    <input type="number" id="money"
+                           min="0" step="any"
+                           placeholder="例如 100000"
+                           required>
+                </div>
+
+                <div class="field">
+                    <label for="monthly">🪙 每月固定投入（NT$）</label>
+                    <input type="number" id="monthly"
+                           min="0" step="any"
+                           placeholder="例如 3000"
+                           required>
+                </div>
+
+                <div class="field-row">
+
+                    <div class="field">
+                        <label for="years">📅 投資年數</label>
+                        <input type="number" id="years"
+                               min="1" max="60" step="1"
+                               placeholder="例如 10"
+                               required>
+                    </div>
+
+                    <div class="field">
+                        <label for="rate">📈 年化報酬率（%）</label>
+                        <input type="number" id="rate"
+                               min="-99.99" max="100"
+                               step="any"
+                               placeholder="例如 5"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="field">
+                    <label for="goal">🎯 投資目標金額（NT$）</label>
+                    <input type="number" id="goal"
+                           min="1" step="any"
+                           placeholder="例如 1000000"
+                           required>
+                </div>
+
+                <div class="field">
+                    <label for="frequency">🔄 複利頻率</label>
+                    <select id="frequency">
+                        <option value="12">每月複利</option>
+                        <option value="4">每季複利</option>
+                        <option value="1">每年複利</option>
+                    </select>
+                    <span class="field-help">
+                        每月投入在月底計入；年化以名目年利率試算。
+                    </span>
+                </div>
+
+                <p class="quick-label">
+                    ✦ 不知道年化怎麼填？試試不同情境：
+                </p>
+
+                <div class="quick-buttons">
+                    <button type="button" class="quick-btn"
+                            data-rate="3">3% 情境</button>
+                    <button type="button" class="quick-btn"
+                            data-rate="5">5% 情境</button>
+                    <button type="button" class="quick-btn"
+                            data-rate="8">8% 情境</button>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    🌱 開始我的錢計畫！
+                </button>
+
+                <button type="reset" class="reset-btn">
+                    ↺ 清除重新計算
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- 2. container-output -->
+        <section class="container-output" aria-live="polite">
+
+            <div class="output-title">
+                STEP 02 / MY GROWTH REPORT
+            </div>
+
+            <!-- 未來資產 -->
+            <div class="result-main">
+
+                <div class="result-label">
+                    🌳 未來預估總資產
+                </div>
+
+                <div id="result">NT$ —</div>
+
+                <div id="message">
+                    你的錢正在等待發芽 ♡
+                </div>
+
+            </div>
+
+            <!-- 基本統計 -->
+            <div class="stats">
+
+                <div class="stat-card">
+                    <span>💰 累積投入本金</span>
+                    <strong id="invested">NT$ —</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>✨ 預估收益</span>
+                    <strong id="profit">NT$ —</strong>
+                </div>
+
+            </div>
+
+            <!-- 目標進度 -->
+            <div class="goal-card">
+
+                <h3 class="card-heading">
+                    🎯 距離夢想還有多遠？
+                </h3>
+
+                <div class="goal-info">
+                    <span>目標達成率</span>
+                    <strong id="goalPercent">0%</strong>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="goalBar"></div>
+                </div>
+
+                <p id="goalMessage">
+                    設定目標後，這裡會顯示進度！
+                </p>
+
+            </div>
+
+            <!-- 本金收益比例 -->
+            <div class="chart-card">
+
+                <h3 class="card-heading">
+                    🍊 我的資金組成
+                </h3>
+
+                <div class="composition-track">
+                    <div class="principal-fill" id="principalBar"></div>
+                    <div class="gain-fill" id="gainBar"></div>
+                </div>
+
+                <div class="legend">
+
+                    <div class="legend-item">
+                        🟠 自己投入
+                        <strong id="principalText">NT$ —</strong>
+                    </div>
+
+                    <div class="legend-item">
+                        🟢 投資增減
+                        <strong id="gainText">NT$ —</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 成長圖 -->
+            <div class="chart-card">
+
+                <h3 class="card-heading">
+                    📊 錢成長紀錄
+                </h3>
+
+                <div class="chart" id="growthChart">
+                    <p class="result-label">
+                        計算後，就能看見成長變化！
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- 計算公式 -->
+            <div class="formula-card">
+
+                <h3 class="card-heading">
+                    🧮 我的計算公式
+                </h3>
+
+                <div id="formula">
+                    起始本金＋每月投入＋複利收益
+                </div>
+
+            </div>
+
+            <!-- 情境比較 -->
+            <div class="scenario-card">
+
+                <h3 class="card-heading">
+                    ✦ 不同年化情境比較
+                </h3>
+
+                <div id="scenarios">
+                    <p class="result-label">
+                        計算後會顯示 3%、5%、8% 的比較。
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        ✳ MONEY GROW CLUB<br>
+        本工具僅供財務試算，不代表實際投資績效。<br>
+        尚未計入手續費、稅費、通膨及市場波動風險。
+    </footer>
+
+</div>
+
+<script>
+/* ===== 取得表單 ===== */
+const form = document.getElementById("moneyForm");
+const quickButtons = document.querySelectorAll(".quick-btn");
+
+/* ===== 金額格式 ===== */
+function moneyFormat(number) {
+    return "NT$ " + Math.round(number).toLocaleString("zh-TW");
+}
+
+/* ===== 複利計算函式 ===== */
+/*
+   假設：
+   1. 每月月底投入
+   2. 年化為名目年利率
+   3. 投入本金之外的收益會再投入
+   4. 不計入稅費
+*/
+function calculateInvestment(principal, monthly, years, rate, frequency) {
+
+    // 每月投入，轉換成每月等效利率
+    const annualRate = rate / 100;
+
+    const monthlyRate =
+        Math.pow(1 + annualRate / frequency, frequency / 12) - 1;
+
+    const months = years * 12;
+
+    // 起始本金的成長
+    const principalFuture =
+        principal * Math.pow(1 + monthlyRate, months);
+
+    // 每月月底投入的成長
+    let monthlyFuture;
+
+    if (Math.abs(monthlyRate) < 1e-12) {
+        monthlyFuture = monthly * months;
+    } else {
+        monthlyFuture =
+            monthly *
+            (Math.pow(1 + monthlyRate, months) - 1) /
+            monthlyRate;
+    }
+
+    // 未來總資產
+    const total = principalFuture + monthlyFuture;
+
+    // 累積投入
+    const invested = principal + monthly * months;
+
+    // 投資增減
+    const profit = total - invested;
+
+    return {
+        total: total,
+        invested: invested,
+        profit: profit
+    };
+}
+
+/* ===== 快速選擇年化 ===== */
+quickButtons.forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        document.getElementById("rate").value =
+            button.dataset.rate;
+
+        quickButtons.forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+    });
+});
+
+/* 手動輸入時取消選取 */
+document.getElementById("rate").addEventListener("input", function() {
+    quickButtons.forEach(function(btn) {
+        btn.classList.remove("active");
+    });
+});
+
+/* ===== 表單計算 ===== */
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    // 取得輸入資料
+    const principal = Number(document.getElementById("money").value);
+    const monthly = Number(document.getElementById("monthly").value);
+    const years = Number(document.getElementById("years").value);
+    const rate = Number(document.getElementById("rate").value);
+    const goal = Number(document.getElementById("goal").value);
+    const frequency = Number(document.getElementById("frequency").value);
+
+    // 檢查資料
+    if (
+        ![principal, monthly, years, rate, goal].every(Number.isFinite) ||
+        principal < 0 ||
+        monthly < 0 ||
+        years < 1 ||
+        years > 60 ||
+        !Number.isInteger(years) ||
+        rate <= -100 ||
+        rate > 100 ||
+        goal <= 0
+    ) {
+        alert("請確認所有輸入金額、投資年數與報酬率！");
+        return;
+    }
+
+    // 開始複利計算
+    const result = calculateInvestment(
+        principal, monthly, years, rate, frequency
+    );
+
+    if (!Number.isFinite(result.total) || !Number.isFinite(result.profit)) {
+        alert("計算結果過大，請調整輸入資料！");
+        return;
+    }
+
+    // 顯示總資產
+    document.getElementById("result").innerText =
+        moneyFormat(result.total);
+
+    // 顯示投入金額
+    document.getElementById("invested").innerText =
+        moneyFormat(result.invested);
+
+    // 顯示收益
+    document.getElementById("profit").innerText =
+        moneyFormat(result.profit);
+
+    // 趣味文字
+    const message = document.getElementById("message");
+
+    if (result.profit > 0) {
+        message.innerText = "🌳 錢長大啦！複利小樹開心成長 ♡";
+    } else if (result.profit < 0) {
+        message.innerText = "🍂 這次是虧損情境，要留意投資風險喔！";
+    } else {
+        message.innerText = "🌱 錢還在累積，慢慢來也很好！";
+    }
+
+    /* ===== 目標進度條 ===== */
+    const goalPercent = result.total / goal * 100;
+
+    const displayPercent = Math.max(0, goalPercent);
+
+    document.getElementById("goalPercent").innerText =
+        displayPercent.toFixed(1) + "%";
+
+    const goalBar = document.getElementById("goalBar");
+
+    goalBar.style.width = "0%";
+    void goalBar.offsetWidth;
+    goalBar.style.width = Math.min(100, displayPercent) + "%";
+
+    const goalMessage = document.getElementById("goalMessage");
+
+    if (result.total >= goal) {
+        goalMessage.innerText = "🎉 恭喜！這個試算情境已達成目標！";
+    } else {
+        goalMessage.innerText =
+            "還差 " + moneyFormat(goal - result.total) +
+            "，繼續朝夢想前進 ♡";
+    }
+
+    /* ===== 資金組成 ===== */
+    const principalBar = document.getElementById("principalBar");
+    const gainBar = document.getElementById("gainBar");
+
+    if (result.total > 0 && result.profit >= 0) {
+        const basePercent = result.invested / result.total * 100;
+
+        principalBar.style.width = Math.min(100, basePercent) + "%";
+        gainBar.style.width = Math.max(0, 100 - basePercent) + "%";
+        gainBar.style.background = "#78a9a4";
+    } else if (result.profit < 0 && result.invested > 0) {
+        const lossPercent =
+            Math.min(100, Math.abs(result.profit) / result.invested * 100);
+
+        principalBar.style.width = (100 - lossPercent) + "%";
+        gainBar.style.width = lossPercent + "%";
+        gainBar.style.background = "#e79a8e";
+    } else {
+        principalBar.style.width = "0%";
+        gainBar.style.width = "0%";
+    }
+
+    document.getElementById("principalText").innerText =
+        moneyFormat(result.invested);
+
+    document.getElementById("gainText").innerText =
+        moneyFormat(result.profit);
+
+    /* ===== 顯示公式 ===== */
+    document.getElementById("formula").innerText =
+        "累積投入 = " +
+        moneyFormat(principal) + " + (" +
+        moneyFormat(monthly) + " × " +
+        (years * 12) + " 個月)\n" +
+        "= " + moneyFormat(result.invested) +
+        "\n\n未來預估總資產 = " +
+        moneyFormat(result.total) +
+        "\n投資增減 = " +
+        moneyFormat(result.profit) +
+        "\n計算方式：每月月底投入、依所選複利頻率換算每月等效利率。";
+
+    /* ===== 年度成長圖 ===== */
+    const chart = document.getElementById("growthChart");
+    chart.innerHTML = "";
+
+    // 最多顯示六個年份
+    const step = Math.max(1, Math.ceil(years / 5));
+    const selectedYears = [0];
+
+    for (let y = step; y < years; y += step) {
+        selectedYears.push(y);
+    }
+
+    selectedYears.push(years);
+
+    // 計算各年份金額
+    const chartData = selectedYears.map(function(year) {
+        return {
+            year: year,
+            value: calculateInvestment(
+                principal, monthly, year, rate, frequency
+            ).total
+        };
+    });
+
+    const maxValue = Math.max(1, ...chartData.map(item => item.value));
+
+    // 建立長條圖
+    chartData.forEach(function(item) {
+
+        const column = document.createElement("div");
+        column.className = "chart-column";
+
+        const amount = document.createElement("div");
+        amount.className = "chart-value";
+        amount.innerText = Math.round(item.value).toLocaleString("zh-TW");
+
+        const area = document.createElement("div");
+        area.className = "chart-bar-area";
+
+        const bar = document.createElement("div");
+        bar.className = "chart-bar";
+
+        const yearLabel = document.createElement("div");
+        yearLabel.className = "chart-year";
+        yearLabel.innerText = item.year + "年";
+
+        area.appendChild(bar);
+        column.appendChild(amount);
+        column.appendChild(area);
+        column.appendChild(yearLabel);
+        chart.appendChild(column);
+
+        const height = Math.max(0, item.value / maxValue * 100);
+
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                bar.style.height = height + "%";
+            });
+        });
+    });
+
+    /* ===== 不同情境比較 ===== */
+    const scenarios = document.getElementById("scenarios");
+    scenarios.innerHTML = "";
+
+    [3, 5, 8].forEach(function(scenarioRate) {
+
+        const scenario = calculateInvestment(
+            principal, monthly, years, scenarioRate, frequency
+        );
+
+        const row = document.createElement("div");
+        row.className = "scenario-row";
+
+        const label = document.createElement("span");
+        label.innerText = "🌱 年化 " + scenarioRate + "%";
+
+        const value = document.createElement("strong");
+        value.innerText = Number.isFinite(scenario.total)
+            ? moneyFormat(scenario.total)
+            : "數值過大";
+
+        row.appendChild(label);
+        row.appendChild(value);
+        scenarios.appendChild(row);
+    });
+
+});
+
+/* ===== 清除重新計算 ===== */
+form.addEventListener("reset", function() {
+
+    quickButtons.forEach(function(btn) {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById("result").innerText = "NT$ —";
+    document.getElementById("invested").innerText = "NT$ —";
+    document.getElementById("profit").innerText = "NT$ —";
+
+    document.getElementById("message").innerText =
+        "你的錢正在等待發芽 ♡";
+
+    document.getElementById("goalPercent").innerText = "0%";
+    document.getElementById("goalBar").style.width = "0%";
+
+    document.getElementById("goalMessage").innerText =
+        "設定目標後，這裡會顯示進度！";
+
+    document.getElementById("principalBar").style.width = "0%";
+    document.getElementById("gainBar").style.width = "0%";
+
+    document.getElementById("principalText").innerText = "NT$ —";
+    document.getElementById("gainText").innerText = "NT$ —";
+
+    document.getElementById("formula").innerText =
+        "起始本金＋每月投入＋複利收益";
+
+    document.getElementById("growthChart").innerHTML =
+        '<p class="result-label">計算後，就能看見成長變化！</p>';
+
+    document.getElementById("scenarios").innerHTML =
+        '<p class="result-label">計算後會顯示 3%、5%、8% 的比較。</p>';
+
+});
+</script>
+
+</body>
+</html>

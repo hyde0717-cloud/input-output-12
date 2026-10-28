@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生活要可愛，錢包也要顧 ♡</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 35px 20px;
+            background: #fff4eb;
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: #71493f;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* 網頁標題 */
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .brand {
+            color: #dc8069;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        h1 {
+            font-size: 46px;
+            line-height: 1.35;
+            margin: 15px 0;
+        }
+
+        .subtitle {
+            color: #a47c70;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .heart {
+            color: #e98671;
+        }
+
+        /* 左右雙欄 */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        /* 左側輸入卡片 */
+        .container-input {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(165,100,80,0.08);
+        }
+
+        .section-title {
+            font-size: 21px;
+            margin: 0 0 8px;
+        }
+
+        .section-note {
+            font-size: 13px;
+            color: #ae897c;
+            margin-bottom: 22px;
+        }
+
+        /* 五個項目使用網格排版 */
+        .expense-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .field {
+            background: #fff8f4;
+            border: 1px solid #f4e1d9;
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .field:last-child {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #efd7cd;
+            background: white;
+            font-size: 16px;
+            color: #71493f;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #e98671;
+            box-shadow: 0 0 0 3px rgba(233,134,113,0.14);
+        }
+
+        /* 計算按鈕 */
+        .submit-btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #e98671;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .submit-btn:hover {
+            background: #d97963;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(215,118,100,0.25);
+        }
+
+        /* 右側結果卡片 */
+        .container-output {
+            background: #f9d9ce;
+            border-radius: 25px;
+            padding: 32px 25px;
+            position: sticky;
+            top: 25px;
+        }
+
+        .result-tag {
+            font-size: 12px;
+            color: #b97665;
+            letter-spacing: 2px;
+        }
+
+        .result-heading {
+            font-size: 24px;
+            margin: 18px 0 10px;
+        }
+
+        .result-info {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #916b60;
+        }
+
+        .result-card {
+            background: #fff9f5;
+            margin-top: 25px;
+            padding: 25px 15px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #a47769;
+        }
+
+        #result {
+            color: #d76f5b;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 15px 0;
+            overflow-wrap: anywhere;
+        }
+
+        #formula {
+            color: #967065;
+            font-size: 13px;
+            line-height: 1.8;
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+        }
+
+        .summary {
+            margin-top: 22px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8bdb0;
+            font-size: 14px;
+        }
+
+        .summary-row strong {
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #9f776b;
+            line-height: 1.8;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        /* 手機版自動改成上下排 */
+        @media (max-width: 700px) {
+            h1 {
+                font-size: 35px;
+            }
+
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .container-output {
+                position: static;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .expense-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field:last-child {
+                grid-column: auto;
+            }
+
+            .container-input {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 網站標題 -->
+    <header class="header">
+
+        <div class="brand">✿ HELLO MONEY! ✿</div>
+
+        <h1>
+            生活要可愛，
+            錢包也要顧 <span class="heart">♡</span>
+        </h1>
+
+        <p class="subtitle">
+            錢到底都去哪了？<br>
+            花一分鐘整理生活開銷，算出你的十年安心小目標！
+        </p>
+
+    </header>
+
+    <!-- 左右版面 -->
+    <main class="main-layout">
+
+        <!-- 1. 輸入區 -->
+        <section class="container-input">
+
+            <h2 class="section-title">🍰 我的生活小帳本</h2>
+            <p class="section-note">
+                填入每個月的花費，沒有支出就填 0 喔！
+            </p>
+
+            <form id="moneyForm">
+
+                <div class="expense-grid">
+
+                    <div class="field">
+                        <label for="food">🍙 食｜吃吃喝喝</label>
+                        <input type="number" id="food"
+                               min="0" step="any"
+                               placeholder="每月金額" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="clothes">👗 衣｜漂亮一下</label>
+                        <input type="number" id="clothes"
+                               min="0" step="any"
+                               placeholder="每月金額" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="house">🏠 住｜我的小窩</label>
+                        <input type="number" id="house"
+                               min="0" step="any"
+                               placeholder="每月金額" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="traffic">🛵 行｜趴趴走</label>
+                        <input type="number" id="traffic"
+                               min="0" step="any"
+                               placeholder="每月金額" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="other">🧸 其他｜生活小確幸</label>
+                        <input type="number" id="other"
+                               min="0" step="any"
+                               placeholder="每月金額" required>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    ♡ 幫我算算錢 ♡
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- 2. 結果區 -->
+        <section class="container-output" aria-live="polite">
+
+            <div class="result-tag">MY MONEY GOAL ✦</div>
+
+            <h2 class="result-heading">
+                我的安心小金庫 ♡
+            </h2>
+
+            <p class="result-info">
+                每一筆生活開銷，<br>
+                都是未來計畫的一部分。
+            </p>
+
+            <div class="result-card">
+
+                <div class="result-label">
+                    十年財務安全數字
+                </div>
+
+                <div id="result">NT$ —</div>
+
+                <div id="formula">
+                    每月支出 × 12 個月 × 10 年
+                </div>
+
+            </div>
+
+            <div class="summary">
+
+                <div class="summary-row">
+                    <span>☕ 每月生活費</span>
+                    <strong id="monthly">NT$ —</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>🌷 每年生活費</span>
+                    <strong id="yearly">NT$ —</strong>
+                </div>
+
+            </div>
+
+            <p class="note">
+                ✿ 小提醒：這是十年生活費的簡單估算，
+                未考慮通膨與投資報酬等因素。
+            </p>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+    // 取得表單
+    let form = document.getElementById("moneyForm");
+
+    // 按下計算按鈕
+    form.addEventListener("submit", function(event) {
+
+        // 防止表單重新整理
+        event.preventDefault();
+
+        // 取得五個金額
+        let food = Number(document.getElementById("food").value);
+        let clothes = Number(document.getElementById("clothes").value);
+        let house = Number(document.getElementById("house").value);
+        let traffic = Number(document.getElementById("traffic").value);
+        let other = Number(document.getElementById("other").value);
+
+        // 每月總支出
+        let monthly = food + clothes + house + traffic + other;
+
+        // 每年支出
+        let yearly = monthly * 12;
+
+        // 財務安全數字
+        let total = yearly * 10;
+
+        // 顯示最後結果
+        document.getElementById("result").innerText =
+            "NT$ " + total.toLocaleString("zh-TW");
+
+        // 顯示每月支出
+        document.getElementById("monthly").innerText =
+            "NT$ " + monthly.toLocaleString("zh-TW");
+
+        // 顯示每年支出
+        document.getElementById("yearly").innerText =
+            "NT$ " + yearly.toLocaleString("zh-TW");
+
+        // 顯示計算公式
+        document.getElementById("formula").innerText =
+            "(" + food + " + " + clothes + " + " +
+            house + " + " + traffic + " + " + other +
+            ") × 12 × 10\n= NT$ " +
+            total.toLocaleString("zh-TW");
+
+    });
+</script>
+
+</body>
+</html>
