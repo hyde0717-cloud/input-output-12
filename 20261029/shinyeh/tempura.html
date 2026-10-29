@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黃金揚物｜欣葉日本料理</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: white;
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: #34483b;
+        }
+
+        header {
+            width: 85%;
+            margin: auto;
+            padding: 25px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a, nav span {
+            color: #34483b;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        nav a:hover { color: #b59a6a; }
+
+        .title {
+            text-align: center;
+            padding: 65px 15px 35px;
+        }
+
+        .english {
+            color: #b59a6a;
+            font-size: 13px;
+            letter-spacing: 4px;
+        }
+
+        .title h1 {
+            font-size: 32px;
+            font-weight: normal;
+            letter-spacing: 5px;
+            margin: 18px 0;
+        }
+
+        .line {
+            width: 45px;
+            height: 2px;
+            background: #b59a6a;
+            margin: 20px auto 0;
+        }
+
+        .food-photo {
+            width: 80%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .food-photo img {
+            width: 100%;
+            height: 460px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .description {
+            width: 80%;
+            max-width: 720px;
+            margin: 45px auto 65px;
+        }
+
+        .description h2 {
+            font-size: 19px;
+            color: #b59a6a;
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+
+        .description p {
+            color: #666;
+            font-size: 16px;
+            line-height: 2.2;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #34483b;
+            text-decoration: none;
+            border-bottom: 1px solid #b59a6a;
+            padding-bottom: 6px;
+        }
+
+        .back:hover { color: #b59a6a; }
+
+        footer {
+            text-align: center;
+            padding: 28px 15px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                width: 92%;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            nav {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .title {
+                padding-top: 40px;
+            }
+
+            .title h1 {
+                font-size: 25px;
+            }
+
+            .food-photo {
+                width: 92%;
+            }
+
+            .food-photo img {
+                height: 270px;
+            }
+
+            .description {
+                width: 88%;
+                margin: 30px auto 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">欣葉日本料理</div>
+        <nav>
+            <a href="index.html">首頁</a>
+            <a href="menu.html">美味料理</a>
+            <span>餐價資訊</span>
+            <span>分店資訊</span>
+        </nav>
+    </header>
+
+    <section class="title">
+        <div class="english">JAPANESE CUISINE</div>
+        <h1>黃金揚物</h1>
+        <div class="line"></div>
+    </section>
+
+    <section class="food-photo">
+        <img src="./images/Tempura.jpg" alt="黃金揚物">
+    </section>
+
+    <section class="description">
+        <h2>金黃酥脆・香氣四溢</h2>
+        <p>
+            嚴選新鮮食材，裹上輕盈麵衣，
+            經過細緻油炸呈現金黃酥脆的外皮。
+            外酥內嫩的豐富口感，
+            讓每一口都充滿日式揚物的迷人香氣。
+        </p>
+
+        <a class="back" href="index.html">← 返回首頁</a>
+    </section>
+
+    <footer>
+        欣葉日本料理 SHIN YEH JAPANESE CUISINE
+        <p>網頁設計課堂練習作品｜非官方網站</p>
+    </footer>
+
+</body>
+</html>

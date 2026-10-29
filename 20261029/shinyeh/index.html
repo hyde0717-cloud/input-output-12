@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欣葉日本料理｜品味日式饗宴</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* 網頁整體 */
+        body {
+            margin: 0;
+            background-color: white;
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: #34483b;
+        }
+
+        /* 壽司小人滑鼠游標 */
+        html,
+        body {
+            cursor: url("./images/sushi-cursor.png") 32 32, auto;
+        }
+
+        a,
+        a:hover {
+            cursor: url("./images/sushi-cursor.png") 32 32, pointer;
+        }
+
+        /* 上方導覽列 */
+        header {
+            width: 85%;
+            margin: auto;
+            padding: 25px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav a,
+        nav span {
+            color: #34483b;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #b59a6a;
+        }
+
+        /* 餐廳環境輪播 */
+        .banner {
+            width: 85%;
+            margin: auto;
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Banner 介紹文字 */
+        .banner-text {
+            position: absolute;
+            left: 40px;
+            bottom: 35px;
+            z-index: 2;
+            max-width: 450px;
+            padding: 20px 25px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.45);
+            border-radius: 10px;
+        }
+
+        .banner-text h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+            font-weight: normal;
+            letter-spacing: 3px;
+        }
+
+        .banner-text p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* 料理主標題 */
+        .intro {
+            text-align: center;
+            padding: 50px 15px 25px;
+        }
+
+        .intro h2 {
+            font-size: 30px;
+            font-weight: normal;
+            letter-spacing: 5px;
+            margin: 0 0 12px;
+        }
+
+        .intro p {
+            color: #888;
+            font-size: 15px;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        /* 左右交錯料理區 */
+        table {
+            width: 85%;
+            margin: auto;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        tr {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        td {
+            width: 50%;
+            padding: 30px 25px;
+            border: none;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        td a:hover img {
+            transform: scale(1.025);
+        }
+
+        td h3 {
+            font-size: 25px;
+            font-weight: normal;
+            letter-spacing: 3px;
+            margin: 0 0 15px;
+        }
+
+        td p {
+            color: #777;
+            font-size: 15px;
+            line-height: 2;
+            margin: 0;
+        }
+
+        /* 料理名稱連結 */
+        .food-link {
+            color: #34483b;
+            text-decoration: none;
+        }
+
+        .food-link:hover {
+            color: #b59a6a;
+        }
+
+        /* 了解更多 */
+        .more {
+            display: inline-block;
+            margin-top: 18px;
+            color: #b59a6a;
+            font-size: 14px;
+            text-decoration: none;
+            border-bottom: 1px solid #b59a6a;
+            padding-bottom: 5px;
+        }
+
+        .more:hover {
+            color: #34483b;
+        }
+
+        /* 頁尾 */
+        footer {
+            margin-top: 60px;
+            padding: 28px 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* 手機版 */
+        @media (max-width: 700px) {
+            header {
+                width: 92%;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            nav {
+                gap: 15px;
+                justify-content: center;
+            }
+
+            nav a,
+            nav span {
+                font-size: 13px;
+            }
+
+            .banner {
+                width: 95%;
+            }
+
+            .slider {
+                height: 250px;
+            }
+
+            .banner-text {
+                left: 15px;
+                right: 15px;
+                bottom: 15px;
+                padding: 12px 15px;
+                max-width: none;
+            }
+
+            .banner-text h1 {
+                font-size: 22px;
+            }
+
+            .banner-text p {
+                font-size: 13px;
+            }
+
+            .intro h2 {
+                font-size: 24px;
+            }
+
+            table {
+                width: 95%;
+            }
+
+            td {
+                padding: 15px 8px;
+            }
+
+            td img {
+                height: 150px;
+            }
+
+            td h3 {
+                font-size: 19px;
+                letter-spacing: 1px;
+            }
+
+            td p {
+                font-size: 12px;
+                line-height: 1.7;
+            }
+
+            .more {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 上方導覽列 -->
+    <header>
+        <div class="logo">欣葉日本料理</div>
+
+        <nav>
+            <a href="index.html">首頁</a>
+            <span>美味料理</span>
+            <span>餐價資訊</span>
+            <span>分店資訊</span>
+        </nav>
+    </header>
+
+    <!-- 餐廳環境輪播 -->
+    <section class="banner">
+        <div class="slider">
+
+            <img class="slide active" src="./images/environment.jpg" alt="欣葉日本料理用餐環境">
+
+            <img class="slide" src="./images/environment2.jpg" alt="欣葉日本料理自助餐區">
+
+            <div class="banner-text">
+                <h1>餐廳介紹</h1>
+                <p>
+                    欣葉日本料理以溫潤日式空間與精緻料理，
+                    打造舒適愉悅的用餐體驗。
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 料理主標題 -->
+    <section class="intro">
+        <h2>品味日式饗宴</h2>
+        <p>四季旬味・職人料理</p>
+    </section>
+
+    <!-- 左右交錯料理介紹 -->
+    <table>
+
+        <!-- 第一排：海鮮饗宴 -->
+        <tr>
+            <td>
+                <a href="menu.html">
+                    <img src="./images/Hand-mixed.jpg" alt="海鮮饗宴">
+                </a>
+            </td>
+
+            <td>
+                <h3>
+                    <a class="food-link" href="menu.html">
+                        海鮮饗宴
+                    </a>
+                </h3>
+
+                <p>
+                    嚴選鮮美食材，匯集豐富海味。<br>
+                    細細品嚐日式料理的鮮甜滋味。
+                </p>
+
+                <a class="more" href="menu.html">
+                    了解更多 →
+                </a>
+            </td>
+        </tr>
+
+        <!-- 第二排：現做手卷 -->
+        <tr>
+            <td>
+                <h3>
+                    <a class="food-link" href="handscroll.html">
+                        現做手卷
+                    </a>
+                </h3>
+
+                <p>
+                    職人現場製作，保留食材鮮度。<br>
+                    感受海苔、鮮蝦交織的美味。
+                </p>
+
+                <a class="more" href="handscroll.html">
+                    了解更多 →
+                </a>
+            </td>
+
+            <td>
+                <a href="handscroll.html">
+                    <img src="./images/Handscroll.jpg" alt="現做手卷">
+                </a>
+            </td>
+        </tr>
+
+        <!-- 第三排：和風旬味 -->
+        <tr>
+            <td>
+                <a href="kaiseki.html">
+                    <img src="./images/Kaiseki-style.jpg" alt="和風旬味">
+                </a>
+            </td>
+
+            <td>
+                <h3>
+                    <a class="food-link" href="kaiseki.html">
+                        和風旬味
+                    </a>
+                </h3>
+
+                <p>
+                    一道道精緻的日式料理。<br>
+                    感受季節食材與細膩的和風美學。
+                </p>
+
+                <a class="more" href="kaiseki.html">
+                    了解更多 →
+                </a>
+            </td>
+        </tr>
+
+        <!-- 第四排：黃金揚物 -->
+        <tr>
+            <td>
+                <h3>
+                    <a class="food-link" href="tempura.html">
+                        黃金揚物
+                    </a>
+                </h3>
+
+                <p>
+                    金黃酥脆的炸物料理。<br>
+                    每一口都是香氣與口感的享受。
+                </p>
+
+                <a class="more" href="tempura.html">
+                    了解更多 →
+                </a>
+            </td>
+
+            <td>
+                <a href="tempura.html">
+                    <img src="./images/Tempura.jpg" alt="黃金揚物">
+                </a>
+            </td>
+        </tr>
+
+    </table>
+
+    <!-- 頁尾 -->
+    <footer>
+        欣葉日本料理 SHIN YEH JAPANESE CUISINE
+        <p>網頁設計課堂練習作品｜非官方網站</p>
+    </footer>
+
+    <!-- Banner 自動輪播 -->
+    <script>
+        const slides = document.querySelectorAll(".slide");
+        let current = 0;
+
+        if (slides.length > 1) {
+            setInterval(() => {
+                slides[current].classList.remove("active");
+                current = (current + 1) % slides.length;
+                slides[current].classList.add("active");
+            }, 3000);
+        }
+    </script>
+
+</body>
+
+</html>
